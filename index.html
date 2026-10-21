@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZenFocus — Aesthetic Pomodoro & Productivity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-theme="zen-forest" data-layout="zen-minimal">
+  <!-- Dynamic ambient background scenery & aura -->
+  <div class="ambient-backdrop" id="ambient-backdrop"></div>
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-symbol">
+          <img src="assets/zen-stone.jpg" alt="Zen Stone Icon" class="brand-img" />
+        </div>
+        <div class="brand-text">
+          <span class="app-title">ZenFocus</span>
+          <span class="app-subtitle" id="daily-quote">“Breathe in calmness, focus with grace.”</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Style / Layout Variation Switcher -->
+        <div class="dropdown-wrap">
+          <button class="icon-btn" id="style-var-btn" aria-label="Style Layout Variation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span class="btn-label" id="current-layout-label">Style: Zen Minimal</span>
+          </button>
+          <div class="custom-dropdown-menu" id="style-var-menu">
+            <button data-layout-mode="zen-minimal" class="menu-opt active">
+              ✨ <strong>Zen Minimal</strong> (Clean dial & soft glass)
+            </button>
+            <button data-layout-mode="cozy-study" class="menu-opt">
+              ☕ <strong>Cozy Study Lofi</strong> (Illustrated scenery & warm glow)
+            </button>
+            <button data-layout-mode="botanical-art" class="menu-opt">
+              🌿 <strong>Botanical Hourglass</strong> (Hero timer artwork showcase)
+            </button>
+            <button data-layout-mode="cyberpunk-rain" class="menu-opt">
+              🌆 <strong>Cyberpunk Rain</strong> (Neon reflections & atmospheric glow)
+            </button>
+          </div>
+        </div>
+
+        <!-- Theme Color Dropdown -->
+        <div class="dropdown-wrap">
+          <button class="icon-btn tooltip-trigger" id="theme-btn" aria-label="Choose Atmosphere">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+            <span class="btn-label">Atmosphere</span>
+          </button>
+          <div class="custom-dropdown-menu" id="theme-menu">
+            <button data-set-theme="zen-forest" class="theme-opt active">
+              <span class="color-swatch sw-forest"></span> Sage Forest
+            </button>
+            <button data-set-theme="warm-sand" class="theme-opt">
+              <span class="color-swatch sw-sand"></span> Warm Sand
+            </button>
+            <button data-set-theme="twilight-lavender" class="theme-opt">
+              <span class="color-swatch sw-twilight"></span> Twilight Lavender
+            </button>
+            <button data-set-theme="nordic-slate" class="theme-opt">
+              <span class="color-swatch sw-slate"></span> Nordic Slate
+            </button>
+            <button data-set-theme="midnight-bloom" class="theme-opt">
+              <span class="color-swatch sw-midnight"></span> Midnight Bloom
+            </button>
+          </div>
+        </div>
+
+        <!-- Ambient Sound Toggle -->
+        <button class="icon-btn" id="ambient-btn" aria-label="Ambient Sound">
+          <svg id="ambient-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18V5l12-2v13"/>
+            <circle cx="6" cy="18" r="3"/>
+            <circle cx="18" cy="16" r="3"/>
+          </svg>
+          <span class="btn-label" id="ambient-status">Audio: Rain</span>
+        </button>
+
+        <!-- Settings Modal Trigger -->
+        <button class="icon-btn" id="settings-open-btn" aria-label="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="main-content">
+      <!-- Section 1: The Pomodoro Core Card -->
+      <section class="timer-card glass-panel" id="main-timer-section">
+        <!-- Visual Timer Artwork Hero Banner (Visible in Botanical Art and Cozy Study modes) -->
+        <div class="timer-illustration-wrap" id="timer-art-wrap">
+          <img src="assets/timer-art.jpg" alt="Botanical Hourglass Aesthetic Timer" class="timer-art-img" id="timer-art-img" />
+          <div class="timer-art-overlay">
+            <span class="art-tag">Time is a river • Flow with it</span>
+          </div>
+        </div>
+
+        <!-- Mode Tabs -->
+        <nav class="mode-tabs" role="tablist">
+          <button class="tab-btn active" data-mode="pomodoro" role="tab" aria-selected="true">Focus</button>
+          <button class="tab-btn" data-mode="shortBreak" role="tab" aria-selected="false">Short Break</button>
+          <button class="tab-btn" data-mode="longBreak" role="tab" aria-selected="false">Deep Rest</button>
+        </nav>
+
+        <!-- Circular Visual Timer -->
+        <div class="dial-container">
+          <svg class="progress-ring" viewBox="0 0 320 320">
+            <circle class="ring-bg" cx="160" cy="160" r="140"></circle>
+            <circle class="ring-track" id="ring-track" cx="160" cy="160" r="140"></circle>
+          </svg>
+
+          <div class="dial-inner">
+            <div class="current-tag" id="current-task-pill">Ready to immerse</div>
+            <div class="time-display" id="time-display">25:00</div>
+            <div class="cycle-counter" id="cycle-counter">Session 1 of 4</div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="timer-controls">
+          <button class="ctrl-btn secondary" id="skip-btn" title="Skip to Next Mode">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <polygon points="5 4 15 12 5 20 5 4"></polygon>
+              <line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2.5"></line>
+            </svg>
+          </button>
+
+          <button class="ctrl-btn primary" id="toggle-btn" aria-label="Start Timer">
+            <span id="play-icon">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+                <polygon points="6 3 20 12 6 21 6 3"></polygon>
+              </svg>
+            </span>
+            <span id="pause-icon" class="hidden">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+                <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+                <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+              </svg>
+            </span>
+          </button>
+
+          <button class="ctrl-btn secondary" id="reset-btn" title="Reset Current Session">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mini Stats Bar in Timer -->
+        <div class="timer-footer-stats">
+          <div class="stat-bubble">
+            <span class="stat-num" id="stat-completed-today">0</span>
+            <span class="stat-lbl">Pomodoros Today</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-bubble">
+            <span class="stat-num" id="stat-focus-time">0m</span>
+            <span class="stat-lbl">Focused Time</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-bubble">
+            <span class="stat-num" id="stat-streak">1 d</span>
+            <span class="stat-lbl">Streak</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Tasks & Productivity Flow -->
+      <section class="tasks-card glass-panel">
+        <div class="tasks-header">
+          <div class="tasks-title-wrap">
+            <h2 class="section-title">Focus Intention</h2>
+            <span class="task-count-badge" id="task-count-badge">0 tasks</span>
+          </div>
+
+          <button class="clear-tasks-btn" id="clear-completed-btn" title="Clean completed tasks">
+            Clear Finished
+          </button>
+        </div>
+
+        <!-- Task input bar -->
+        <form id="task-form" class="task-input-bar">
+          <input 
+            type="text" 
+            id="task-input" 
+            placeholder="What will you mindfully accomplish?" 
+            autocomplete="off"
+            maxlength="80"
+            required
+          />
+          <div class="task-input-actions">
+            <select id="task-est-poms" title="Estimated Pomodoros" class="custom-select">
+              <option value="1">🍅 1</option>
+              <option value="2">🍅 2</option>
+              <option value="3">🍅 3</option>
+              <option value="4">🍅 4</option>
+              <option value="5">🍅 5</option>
+            </select>
+            <button type="submit" class="task-add-btn" aria-label="Add Task">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <!-- Task List container -->
+        <div class="tasks-list" id="tasks-list">
+          <!-- Dynamically populated or empty state -->
+        </div>
+
+        <!-- Ambient Sound & Lo-Fi Music Stream Drawer -->
+        <div class="ambient-sound-bar">
+          <div class="sound-selector-wrap">
+            <span class="sound-icon-hint">🎧</span>
+            <select id="sound-type-select" class="sound-dropdown">
+              <optgroup label="Calming Soundscapes (Web Audio)">
+                <option value="rain">Gentle Rain</option>
+                <option value="waves">Calm Ocean Waves</option>
+                <option value="forest">Breezy Woodland</option>
+                <option value="whitenoise">Warm Pink Noise</option>
+              </optgroup>
+              <optgroup label="Lo-Fi Music Streams">
+                <option value="lofi-chill">Lofi Girl / Chillhop Stream</option>
+                <option value="lofi-piano">Peaceful Piano Beats</option>
+                <option value="lofi-coffee">Cozy Coffee Shop Beats</option>
+              </optgroup>
+              <option value="off">Mute Audio</option>
+            </select>
+          </div>
+          <div class="volume-slider-wrap">
+            <span class="vol-icon">🔉</span>
+            <input type="range" id="sound-volume" min="0" max="100" value="45" aria-label="Sound volume"/>
+          </div>
+        </div>
+
+        <!-- Embedded Audio Stream element (for streaming music) -->
+        <audio id="music-stream-audio" preload="none"></audio>
+      </section>
+    </main>
+
+    <!-- Aesthetic Daily Reflection & Productivity Insights Footer -->
+    <footer class="app-footer glass-panel">
+      <div class="footer-insight">
+        <span class="insight-label">💡 Mindful Tip:</span>
+        <span class="insight-text" id="mindful-tip">Taking brief micro-breaks prevents mental fatigue and protects creative spark.</span>
+      </div>
+      <div class="footer-actions">
+        <button class="text-link-btn" id="bell-test-btn">🔔 Test Gentle Bell</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-backdrop hidden" id="settings-modal">
+    <div class="modal-card glass-panel">
+      <div class="modal-header">
+        <h3>Timer & Atmosphere Preferences</h3>
+        <button class="modal-close" id="settings-close-btn">&times;</button>
+      </div>
+      <form id="settings-form" class="modal-body">
+        <div class="settings-group">
+          <label class="setting-title">Durations (Minutes)</label>
+          <div class="settings-grid">
+            <div class="input-field">
+              <label for="set-pom-time">Focus Time</label>
+              <input type="number" id="set-pom-time" min="1" max="120" value="25" />
+            </div>
+            <div class="input-field">
+              <label for="set-short-break">Short Break</label>
+              <input type="number" id="set-short-break" min="1" max="60" value="5" />
+            </div>
+            <div class="input-field">
+              <label for="set-long-break">Deep Rest</label>
+              <input type="number" id="set-long-break" min="1" max="90" value="15" />
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <label class="setting-title">Rhythm & Intervals</label>
+          <div class="input-field-row">
+            <label for="set-cycles-count">Cycles before Deep Rest</label>
+            <input type="number" id="set-cycles-count" min="1" max="12" value="4" />
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <label class="setting-title">Automation</label>
+          <div class="toggle-row">
+            <span>Auto-commence Breaks</span>
+            <label class="switch">
+              <input type="checkbox" id="set-auto-break">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <span>Auto-commence Focus Sessions</span>
+            <label class="switch">
+              <input type="checkbox" id="set-auto-pom">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <label class="setting-title">Chime Tone</label>
+          <select id="set-bell-sound" class="custom-select full-width">
+            <option value="singing-bowl">Tibetan Singing Bowl (Deep & Harmonic)</option>
+            <option value="soft-bell">Zen Temple Chime (Clean & Gentle)</option>
+            <option value="marimba">Woodland Marimba (Warm & Subtle)</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="reset-defaults-btn">Reset Defaults</button>
+          <button type="submit" class="btn-primary">Apply Settings</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
